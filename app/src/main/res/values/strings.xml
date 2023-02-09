@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Art Space App</string>
+
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+
+    <string name="content_description_1">Waterfall Image</string>
+    <string name="artwork_title_1">Gray Concrete Bridge and Waterfalls</string>
+    <string name="artwork_artist_1">Blake Verdoorn</string>
+    <string name="artwork_year_1">2019</string>
+
+    <string name="content_description_2">Red Leaf Trees Image</string>
+    <string name="artwork_title_2">Red Leaf Trees Near The Road</string>
+    <string name="artwork_artist_2">Pixabay</string>
+    <string name="artwork_year_2">2021</string>
+
+    <string name="content_description_3">Jellyfish Image</string>
+    <string name="artwork_title_3">Orange Jellyfish</string>
+    <string name="artwork_artist_3">Zetong Li</string>
+    <string name="artwork_year_3">2013</string>
+
+    <string name="content_description_4">Painting Image</string>
+    <string name="artwork_title_4">Orange Red and Green Painting</string>
+    <string name="artwork_artist_4">Steve Johnson</string>
+    <string name="artwork_year_4">2018</string>
+
+    <string name="content_description_5">Moon Image</string>
+    <string name="artwork_title_5">Half Moon on Dark Sky</string>
+    <string name="artwork_artist_5">Ben Mack</string>
+    <string name="artwork_year_5">2020</string>
+</resources>
