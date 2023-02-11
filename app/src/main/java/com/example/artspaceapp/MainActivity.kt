@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -45,9 +46,45 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ArtSpaceApp() {
-    val MIN = 1
-    val MAX = 5
-    var current by remember { mutableStateOf(1) }
+    val artworks = arrayOf(
+        Artwork(
+            image = painterResource(id = R.drawable.art_1),
+            contentDescription = stringResource(id = R.string.content_description_1),
+            title = stringResource(id = R.string.artwork_title_1),
+            artist = stringResource(id = R.string.artwork_artist_1),
+            year = stringResource(id = R.string.artwork_year_1).toIntOrNull() ?: 0,
+        ), Artwork(
+            image = painterResource(id = R.drawable.art_2),
+            contentDescription = stringResource(id = R.string.content_description_2),
+            title = stringResource(id = R.string.artwork_title_2),
+            artist = stringResource(id = R.string.artwork_artist_2),
+            year = stringResource(id = R.string.artwork_year_2).toIntOrNull() ?: 0,
+        ), Artwork(
+            image = painterResource(id = R.drawable.art_3),
+            contentDescription = stringResource(id = R.string.content_description_3),
+            title = stringResource(id = R.string.artwork_title_3),
+            artist = stringResource(id = R.string.artwork_artist_3),
+            year = stringResource(id = R.string.artwork_year_3).toIntOrNull() ?: 0,
+        ),
+        Artwork(
+            image = painterResource(id = R.drawable.art_4),
+            contentDescription = stringResource(id = R.string.content_description_4),
+            title = stringResource(id = R.string.artwork_title_4),
+            artist = stringResource(id = R.string.artwork_artist_4),
+            year = stringResource(id = R.string.artwork_year_4).toIntOrNull() ?: 0,
+        ),
+        Artwork(
+            image = painterResource(id = R.drawable.art_5),
+            contentDescription = stringResource(id = R.string.content_description_5),
+            title = stringResource(id = R.string.artwork_title_5),
+            artist = stringResource(id = R.string.artwork_artist_5),
+            year = stringResource(id = R.string.artwork_year_5).toIntOrNull() ?: 0,
+        )
+    )
+
+    val MIN = 0
+    val MAX = artworks.size - 1
+    var current by remember { mutableStateOf(MIN) }
 
 
     val onPrevious: () -> Unit = {
@@ -64,74 +101,14 @@ fun ArtSpaceApp() {
         }
     }
 
-    when (current) {
-        MIN -> {
-            ArtSpaceScreen(
-                imageId = R.drawable.art_1,
-                contentDescription = R.string.content_description_1,
-                title = R.string.artwork_title_1,
-                artist = R.string.artwork_artist_1,
-                year = R.string.artwork_year_1,
-                onPrevious = onPrevious,
-                onNext = onNext
-            )
-        }
-        2 -> {
-            ArtSpaceScreen(
-                imageId = R.drawable.art_2,
-                contentDescription = R.string.content_description_2,
-                title = R.string.artwork_title_2,
-                artist = R.string.artwork_artist_2,
-                year = R.string.artwork_year_2,
-                onPrevious = onPrevious,
-                onNext = onNext
-            )
-        }
-        3 -> {
-            ArtSpaceScreen(
-                imageId = R.drawable.art_3,
-                contentDescription = R.string.content_description_3,
-                title = R.string.artwork_title_3,
-                artist = R.string.artwork_artist_3,
-                year = R.string.artwork_year_3,
-                onPrevious = onPrevious,
-                onNext = onNext
-            )
-        }
-        4 -> {
-            ArtSpaceScreen(
-                imageId = R.drawable.art_4,
-                contentDescription = R.string.content_description_4,
-                title = R.string.artwork_title_4,
-                artist = R.string.artwork_artist_4,
-                year = R.string.artwork_year_4,
-                onPrevious = onPrevious,
-                onNext = onNext
-            )
-        }
-        MAX -> {
-            ArtSpaceScreen(
-                imageId = R.drawable.art_5,
-                contentDescription = R.string.content_description_5,
-                title = R.string.artwork_title_5,
-                artist = R.string.artwork_artist_5,
-                year = R.string.artwork_year_5,
-                onPrevious = onPrevious,
-                onNext = onNext
-            )
-        }
-    }
+    ArtSpaceScreen(artwork = artworks[current], onPrevious = onPrevious,onNext = onNext)
 }
 
 @Composable
 fun ArtSpaceScreen(
-    imageId: Int,
-    contentDescription: Int,
-    title: Int,
-    artist: Int,
-    year: Int,
-    onNext: () -> Unit,
+    artwork: Artwork,
     onPrevious: () -> Unit,
+    onNext: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -147,15 +124,15 @@ fun ArtSpaceScreen(
             horizontalArrangement = Arrangement.Center
         ) {
             ArtworkWall(
-                imageId = imageId,
-                contentDescription = contentDescription
+                image = artwork.image,
+                contentDescription = artwork.contentDescription
             )
         }
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            ArtworkDescriptor(title = title, artist = artist, year = year)
+            ArtworkDescriptor(title = artwork.title, artist = artwork.artist, year = artwork.year)
         }
         DisplayController(onPrevious = onPrevious, onNext = onNext)
     }
@@ -163,13 +140,12 @@ fun ArtSpaceScreen(
 
 @Composable
 fun ArtworkWall(
-    imageId: Int,
-    contentDescription: Int,
-    modifier: Modifier = Modifier,
+    image: Painter,
+    contentDescription: String?,
 ) {
     Image(
-        painter = painterResource(id = imageId),
-        contentDescription = stringResource(id = contentDescription),
+        painter = image,
+        contentDescription = contentDescription,
         modifier = Modifier
             .border(
                 width = 2.dp,
@@ -181,8 +157,8 @@ fun ArtworkWall(
 
 @Composable
 fun ArtworkDescriptor(
-    title: Int,
-    artist: Int,
+    title: String,
+    artist: String,
     year: Int,
     modifier: Modifier = Modifier,
 ) {
@@ -192,16 +168,16 @@ fun ArtworkDescriptor(
             .padding(16.dp)
     ) {
         Text(
-            text = stringResource(id = title),
+            text = title,
             fontSize = 24.sp,
             modifier = Modifier.padding(bottom = 8.dp)
         )
         Text(
             buildAnnotatedString {
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append(stringResource(id = artist))
+                    append(artist)
                 }
-                append("(${stringResource(id = year)})")
+                append("($year)")
             }
         )
     }
